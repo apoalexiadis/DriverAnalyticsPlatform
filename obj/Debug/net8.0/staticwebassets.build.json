@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "Hash": "jvY+JsMts96a+zxVuDXI72hpZW/d78MYSj/K2BDZCTE=",
+  "Source": "DriverAnalyticsPlatform",
+  "BasePath": "_content/DriverAnalyticsPlatform",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "DriverAnalyticsPlatform\\wwwroot",
+      "Source": "DriverAnalyticsPlatform",
+      "ContentRoot": "C:\\C# Projects\\DriverAnalyticsPlatform\\DriverAnalyticsPlatform\\DriverAnalyticsPlatform\\wwwroot\\",
+      "BasePath": "_content/DriverAnalyticsPlatform",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\C# Projects\\DriverAnalyticsPlatform\\DriverAnalyticsPlatform\\DriverAnalyticsPlatform\\wwwroot\\dashboard.html",
+      "SourceId": "DriverAnalyticsPlatform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\C# Projects\\DriverAnalyticsPlatform\\DriverAnalyticsPlatform\\DriverAnalyticsPlatform\\wwwroot\\",
+      "BasePath": "_content/DriverAnalyticsPlatform",
+      "RelativePath": "dashboard.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\dashboard.html"
+    },
+    {
+      "Identity": "C:\\C# Projects\\DriverAnalyticsPlatform\\DriverAnalyticsPlatform\\DriverAnalyticsPlatform\\wwwroot\\index.html",
+      "SourceId": "DriverAnalyticsPlatform",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\C# Projects\\DriverAnalyticsPlatform\\DriverAnalyticsPlatform\\DriverAnalyticsPlatform\\wwwroot\\",
+      "BasePath": "_content/DriverAnalyticsPlatform",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    }
+  ]
+}

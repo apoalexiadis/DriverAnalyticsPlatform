@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Telemetry Updates and GPS Map</title>
+    <!-- Leaflet CSS for Map Rendering -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JavaScript Library -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- SignalR Library for Real-Time Updates -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
+    <!-- Prevent Default Browser Favicon Error -->
+    <link rel="icon" href="data:,">
+</head>
+<body>
+    <!-- Map Container -->
+    <h1>Map</h1>
+    <div id="map" style="height: 500px;"></div>
+
+    <!-- Telemetry Updates Section -->
+    <h1>Telemetry Updates</h1>
+    <ul id="messagesList"></ul>
+
+    <!-- Alerts Section -->
+    <h1>Alerts</h1>
+    <ul id="alertsList"></ul>
+
+    <!-- JavaScript -->
+    <script>
+        // Initialize Map with Default Location
+        var map = L.map('map').setView([37.7749, -122.4194], 13); // Default location (San Francisco)
+
+        // Add OpenStreetMap Tile Layer to the Map
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        // Function to Add Marker with Popup Label
+        function addMarker(lat, lon, label) {
+            L.marker([lat, lon]).addTo(map)
+                .bindPopup(label)
+                .openPopup();
+        }
+
+        // Initialize SignalR Connection to Telemetry Hub
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7158/telemetryHub") // Replace with your Hub URL
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        // Receive Telemetry Updates from SignalR
+        connection.on("ReceiveTelemetryUpdate", function (data) {
+            // Add telemetry update to the list
+            const li = document.createElement("li");
+            li.textContent = `Time: ${data.timestamp}, Speed: ${data.speed} km/h, GPS: (${data.gpsLatitude}, ${data.gpsLongitude})`;
+            document.getElementById("messagesList").appendChild(li);
+
+            // Update the map with the latest GPS location
+            addMarker(data.gpsLatitude, data.gpsLongitude, `Speed: ${data.speed} km/h`);
+        });
+
+        // Alert Queue to Manage Multiple Alerts Sequentially
+        let alertQueue = [];
+        let isAlertShowing = false; // Flag to control alert processing
+
+        // Function to Process Alert Queue
+        function processAlertQueue() {
+            if (alertQueue.length > 0 && !isAlertShowing) { // Process only if no active alert
+                isAlertShowing = true; // Set flag to avoid overlapping alerts
+                const message = alertQueue.shift(); // Remove first alert from queue
+
+                // Show Alert Popup
+                alert(message);
+
+                // Reset flag after showing alert and process next alert
+                isAlertShowing = false;
+                processAlertQueue();
+            }
+        }
+
+        // Receive Alerts from SignalR
+        connection.on("ReceiveAlert", function (message) {
+            // Add alert to the list
+            const li = document.createElement("li");
+            li.textContent = `ALERT: ${message}`;
+            li.style.color = "red";
+            document.getElementById("alertsList").appendChild(li);
+
+            // Add alert to the queue and process
+            alertQueue.push(message);
+            processAlertQueue();
+        });
+
+        // Start SignalR Connection
+        connection.start()
+            .then(() => {
+                console.log("Connected to SignalR Hub");
+            })
+            .catch(err => console.error("SignalR Connection Error: ", err.toString()));
+
+        // Fetch and Display Historical GPS Data
+        fetch('/api/telemetry') // Replace with your API endpoint
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(item => {
+                    // Add markers for each historical data point
+                    addMarker(item.gpsLatitude, item.gpsLongitude, `Speed: ${item.speed} km/h`);
+                });
+            })
+            .catch(error => console.error('Error fetching telemetry data:', error));
+    </script>
+</body>
+</html>
