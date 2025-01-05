@@ -83,11 +83,43 @@ namespace DriverAnalyticsPlatform.Controllers
 
             if (data.Speed > 120)
             {
+
+                //string subject = "High Speed Alert!";
+                //string message = $"A driver exceeded 120 km/h! Current speed: {data.Speed} km/h.";
+                
+                //// Send email
+                //await emailService.SendEmailAsync("recipient@gmail.com", subject, message);
+                
+                //// **Insert into Database**
+                //var emailRecord = new EmailRequest
+                //{
+                //    RecipientEmail = "recipient@gmail.com",
+                //    Subject = subject,
+                //    Message = message
+                //};
+                //_context.EmailRequest.Add(emailRecord);
+                
                 alertMessages.Add($"High Speed Alert: {data.Speed} km/h");
             }
 
             if (data.FuelLevel < 20)
             {
+
+                //string subject = "Low Fuel Level Alert!";
+                //string message = $"A car has fuel level less than 20%. Current Fuel Level: {data.FuelLevel} %.";
+                
+                //// Send email
+                //await emailService.SendEmailAsync("recipient@gmail.com", subject, message);
+                
+                //// **Insert into Database**
+                //var emailRecord = new EmailRequest
+                //{
+                //    RecipientEmail = "recipient@gmail.com",
+                //    Subject = subject,
+                //    Message = message
+                //};
+                //_context.EmailRequest.Add(emailRecord);
+                
                 alertMessages.Add($"Low Fuel Alert: {data.FuelLevel}%");
             }
 
